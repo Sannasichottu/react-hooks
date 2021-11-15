@@ -13,7 +13,7 @@
 
 .movie-container{
   width: 340px;
-
+  height: min-content;
 }
 
 .movie-poster {
@@ -35,6 +35,7 @@
 .movie-name{
   font-size: 24px;
   margin: 0;
+  max-width: 75%;
 }
 
 .movie-summary{
@@ -70,7 +71,15 @@ body{
 
 .add-color-form{
   display: flex;
-  gap: 10px;
+  gap: 11px;
   flex-direction: column;
   width: 250px;
 }
+
+.add-movie-form{
+  margin: 20px;
+  display: flex;
+  gap: 11px;
+  flex-direction: column;
+}
+
