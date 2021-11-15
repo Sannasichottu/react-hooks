@@ -2,6 +2,14 @@ import './App.css';
 import {useState} from 'react';
 import {Counter} from "./Counter.js";
 import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
 //import {MovieList} from "./MovieList"
 
 
@@ -59,41 +67,16 @@ function App() {
   },
   ];
  
-  const [name, setName] = useState(" ");
-  const [poster, setPoster] = useState(" ");
-  const [rating, setRating] = useState(" ");
-  const [summary, setSummary] = useState(" ");
+  
 
   const [movies, setMovies]= useState(INITIAL_MOVIES);
-  const addMovie = () => {
-    
-    const newMovie={
-      name,
-      poster,
-      rating,
-      summary,
-    };
-    console.log(newMovie);
-    //copy the movie list & add the new movis
-    setMovies([ ...movies, newMovie]);
-  };
+  
  
   return (
     <div className="App">
-      <div>
-      <input value={name}
-         onChange={(event)=>setName(event.target.value)} placeholder=" Enter movie a name" variant="standard" />
-      <input value={poster}
-         onChange={(event)=>setPoster(event.target.value)} placeholder="Enter movie a poster" />
-      <input value={rating}
-         onChange={(event)=>setRating(event.target.value)} placeholder="Enter movie a rating" />
-      <input value={summary}
-         onChange={(event)=>setSummary(event.target.value)} placeholder="Enter movie a summary" />
-      <button >Add movie</button>
-      </div>
+    
+      <Addmovie movies={movies} setMovies={setMovies}/>
 
-    <MovieList movies={movies} />
-    <MovieList movies={movies} />
     <MovieList movies={movies} /> 
   
     <ColorBox />
@@ -101,6 +84,57 @@ function App() {
     
   </div>
   );}
+
+  function Addmovie({movies, setMovies}){
+   const [name, setName] = useState(" ");
+    const [poster, setPoster] = useState(" ");
+    const [rating, setRating] = useState(" ");
+    const [summary, setSummary] = useState(" ");
+    
+    const addMovie = () => {
+    
+      const newMovie={
+        name,
+        poster,
+        rating,
+        summary,
+      };
+      console.log(newMovie);
+      //copy the movie list & add the new movis
+      setMovies([ ...movies, newMovie]);
+    };
+   
+    return(  <div className="add-movie-form">
+      <TextField 
+         value={name}
+         onChange={(event)=>setName(event.target.value)}
+        label="Name" 
+        variant="filled" />
+
+        <TextField 
+         value={poster}
+         onChange={(event)=>setPoster(event.target.value)}
+        label="Poster" 
+        variant="filled" />
+
+        <TextField 
+         value={rating}
+         onChange={(event)=>setRating(event.target.value)}
+        label="Rating" 
+        variant="filled" />
+
+        <TextField 
+         value={summary}
+         onChange={(event)=>setSummary(event.target.value)}
+        label="Summary" 
+        variant="filled" />
+
+        <button  onClick={addMovie} variant="outlined">Add movie</button>
+        </div>
+     
+
+    )
+  }
 
   function AddColor (){
 
@@ -170,27 +204,30 @@ function Movie({name,rating,summary,poster}) {
   };*/  
 
   return (
-  <div className="movie-container">
+  <Card className="movie-container">
     <img 
     src={poster} 
     alt="Master"
     className="movie-poster" 
     />
-
+    <CardContent>
     <div className="movie-specs">
-    <h3 className="movie-name">{name}</h3>
+    <h3 className="movie-name">{name} 
+    <IconButton onClick={()=>setShow(!show)} className="movie-show-button" aria-label="delete" color="primary">
+
+     {show ? <ExpandLessIcon /> : <ExpandMoreIcon />}   
+    </IconButton> </h3>
     <p className="movie-rating" style ={styles} >⭐ {rating} </p>
     </div>
 
-    {/* <IconButton aria-label="delete">
-    <ExpandLessIcon />
-    </IconButton> */ }
-    <button onClick={()=>setShow(!show)} className="movie-show-button">
-    {show ? "Hide" : "Show"} description</button>
+    
     {show ? <p className="movie-summary">{summary}</p> : ""}
     {/*<p style={summaryStyles} className="movie-summary"> {summary} </p> */} 
+    <CardActions>
     <Counter />
-  </div>
+    </CardActions>
+    </CardContent>
+  </Card>
   );
 }
 
