@@ -1,13 +1,17 @@
 import './App.css';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {Counter} from "./Counter.js";
+//import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
+import InfoIcon from '@mui/icons-material/Info';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
+import { useHistory } from 'react-router-dom';
+import { Switch, Route, Link ,Redirect } from "react-router-dom";
 //import {MovieList} from "./MovieList"
 
 
@@ -72,16 +76,51 @@ function App() {
  
   return (
     <div className="App">
-    
-      <Addmovie movies={movies} setMovies={setMovies}/>
 
-    <MovieList movies={movies} /> 
-  
-    <ColorBox />
-    <AddColor />
-    
+      <nav>
+      <Link to="/" >Home</Link>
+      <Link to="/movies">Movies</Link>
+      <Link to="/add-movies">Add Movies</Link>
+      <Link to="/color-game">Color Game</Link>
+      </nav>
+      <Switch>
+      <Route exact path="/">
+          <Welcome />
+        </Route>
+        <Route path="/films">
+          <Redirect to ="/movies" />
+        </Route>
+        <Route path="/movies/:id">
+        Movie details
+        </Route>
+        <Route path="/movies">
+        <MovieList movies={movies} />
+        </Route>
+        <Route path="/add-movies">
+        <Addmovie movies={movies} setMovies={setMovies}/>
+        </Route>
+        <Route path="/color-game">
+        <ColorBox />
+        <AddColor />
+        </Route>
+        <Route path="**">
+          <NotFound />
+        </Route>
+        
+      </Switch>
   </div>
   );}
+
+  function NotFound(){
+    return(
+    <div>
+      <img src="https://kfg6bckb.media.zestyio.com/yalantis-interactive-404.gif" alt=" " />
+    </div>)
+  }
+
+  function Welcome(){
+    return <h2>Welcome to SANNASI 🤩 CHOTTU 🏍️</h2>;  
+  }
 
   function Addmovie({movies, setMovies}){
    const [name, setName] = useState(" ");
@@ -170,27 +209,29 @@ function App() {
 
 
 //MOvie-list
-  function MovieList({movies}) {
-    return(
-      <section className="movie-list">
-      {movies.map((mv)=>(
-      <Movie 
-      name={mv.name}
-      rating={mv.rating}
-      summary={mv.summary}
-      poster={mv.poster}
-      />
-      ))}
-    </section>
-    );
-    }
+function MovieList({movies,index}) {
+  return(
+    <section className="movie-list">
+    {movies.map((mv)=>(
+    <Movie 
+    name={mv.name}
+    rating={mv.rating}
+    summary={mv.summary}
+    poster={mv.poster}
+    id={index}
+    />
+    ))}
+  </section>
+  );
+  }
 
 
 //Movie view details
 
-function Movie({name,rating,summary,poster}) {
+function Movie({name,rating,summary,poster, id}) {
 
   const [show, setShow] = useState(true)
+  const history = useHistory();
   
   //Rateing color
   const styles = {
@@ -211,8 +252,18 @@ function Movie({name,rating,summary,poster}) {
     <CardContent>
     <div className="movie-specs">
     <h3 className="movie-name">{name} 
-    <IconButton onClick={()=>setShow(!show)} className="movie-show-button" aria-label="delete" color="primary">
+    
+    <IconButton 
+      onClick={()=>{
+        console.log(id);
+         // /movies/0 or /movies/1
+        history.push("/movies/"+ id);
+      }}
+      className="movie-show-button" aria-label="more-info" color="success">
+     <InfoIcon />
 
+     </IconButton>
+    <IconButton onClick={()=>setShow(!show)} className="movie-show-button" aria-label="hide" color="primary">
      {show ? <ExpandLessIcon /> : <ExpandMoreIcon />}   
     </IconButton> </h3>
     <p className="movie-rating" style ={styles} >⭐ {rating} </p>
