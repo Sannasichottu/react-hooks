@@ -489,31 +489,7 @@ function Movie({name,rating,summary,poster,id, deleteButton,editButton}) {
     }   
 
 
-    {/*  function Theme(){
-      return (
-
-        <div className="Theame" style={{background:"black"}}>
-        <List />
-        </div>
-      );
-    }
-    const List =() =>(
-      <ul>
-        <ListIteam value="light" />
-        <ListIteam value="dark" />
-      </ul>
-    );
-
-    const ListIteam =({value}) =>(
-      <li>
-        <Button value={value} />
-      </li>
-    );
-
-    const Button =({value})=> {
-      return <button>{value}</button>
-    }; */}
-
+    
    
 
 
