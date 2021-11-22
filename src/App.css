@@ -98,16 +98,45 @@ h2{
 }
 
 .not-found-container{
-  width: 100px;
+  width: 100%;
   object-fit: cover;
 }
 
 .not-found-container{
+  padding-top: 1rem;
   text-align:center;
-  color:teal;
+  color:rgb(192, 3, 59);
 }
 
 .movie-detail-container{
   padding: 24px;
   max-width: 50rem;
+}
+
+.game-box{
+  background-color: white;
+  color: black;
+  height: 8rem;
+  width:8rem;
+  font-size: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.board{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: min-content;
+}
+
+.full-game{
+  display: flex;
+  flex-direction:column;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+
 }
