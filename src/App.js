@@ -192,14 +192,14 @@ function App() {
     const {id} = useParams();
     //const movie = movies[id];
     console.log("The id is", id);
-
+  
     const [movie, setMovie] = useState ({ }); 
     useEffect(()=>{
       fetch(`https://619ba1512782760017445704.mockapi.io/movies/${id}`,
       {method:"GET",})
       .then((data)=> data.json())
       .then((mv)=> setMovie(mv));
-    },[]);
+    }); //<- },[]); ipdi add pannanum 
 
     const styles = {
       Color: movie.rating < 8 ? "crimson" : "green",
@@ -242,8 +242,8 @@ function App() {
   function Editmovie({movies, setMovies}){
     const {id} =useParams();
     const history =useHistory();
-    const movie=movies[id];
-    console.log(movie);
+    //const movie=movies[id];
+    //console.log(movie);
    const [name, setName] = useState(" ");
     const [poster, setPoster] = useState(" ");
     const [rating, setRating] = useState(" ");
@@ -268,8 +268,16 @@ function App() {
     copyMovieList[id]= updatedMovie;
     setMovies(copyMovieList);
     history.push('/movies')
+
+    fetch("https:619ba1512782760017445704.mockapi.io/movies/",
+    { method:"POST",
+      body: JSON.stringify(updatedMovie),
+      headers:{'Content-Type': 'application/json'  }
+    }).then(()=>history.push("/movies"));
+    
+
     };
-   
+
     return(  <div className="add-movie-form">
       <TextField 
          value={name}
@@ -303,10 +311,10 @@ function App() {
 
         <button  onClick={editMovie} variant="outlined">SAVE</button>
         </div>
-     
-
-    )
+       );
   }
+
+  
 
   function AddColor (){
 
@@ -359,7 +367,8 @@ function MovieList() {
     fetch(
       `https://619ba1512782760017445704.mockapi.io/movies/${id}`,
       {method:"DELETE"}
-      );
+      )
+      .then(()=>getMovies());
   }
 
   const history = useHistory();
